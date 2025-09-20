@@ -81,7 +81,7 @@ const blogSchema = new mongoose.Schema({
 	title: String,
 	content: String,
 	author: String,
-	date: { type: Date, default: Date.now }
+	date: String
 });
 const Blog = mongoose.model('Blog', blogSchema);
 
@@ -108,3 +108,20 @@ const Blog = mongoose.model('Blog', blogSchema);
 // 	date: { type: Date, default: Date.now }
 // });
 // const Contact = mongoose.model('Contact', contactSchema);
+
+// Add a new blog
+app.post('/api/blogs', async (req, res) => {
+  try {
+    const blog = new Blog(req.body);
+    await blog.save();
+    res.status(201).json(blog);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// Get all blogs
+app.get('/api/blogs', async (req, res) => {
+  const blogs = await Blog.find();
+  res.json(blogs);
+});

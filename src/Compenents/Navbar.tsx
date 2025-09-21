@@ -13,9 +13,11 @@ const Navbar = () => {
         <a href="/Contact" className="text-black  hover:underline hover:underline-offset-4 hover:decoration-amber-700 font-medium text-xl transition-colors">Contact Us</a>
       </div>
       <div>
-        <button className='bg-amber-700 text-white px-6 py-3 rounded-full text-xl font-semibold hover:bg-amber-800 transition-colors'>
-          Book Appointment
-        </button>
+        <a href="/Appointment">
+          <button className='bg-amber-700 text-white px-6 py-3 rounded-full text-xl font-semibold hover:bg-amber-800 transition-colors'>
+            Book Appointment
+          </button>
+        </a>
       </div>
     </nav>
   )

@@ -21,9 +21,11 @@ const page = () => {
           Delivering financial transparency, risk management, and business growth solutions to organizations across industries.
         </h4>
         <h4 className='text-3xl text-center font-bold mb-12'>Call Us: +94 75 244 6520</h4>
-        <button className='bg-amber-700 text-white px-6 py-3 rounded-full text-xl font-semibold hover:bg-amber-800 transition-colors'>
-          Book Appointment
-        </button>
+        <a href="/Appointment">
+          <button className='bg-amber-700 text-white px-6 py-3 rounded-full text-xl font-semibold hover:bg-amber-800 transition-colors'>
+            Book Appointment
+          </button>
+        </a>
       </div>
     </div>
     

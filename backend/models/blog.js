@@ -7,4 +7,3 @@ const blogSchema = new mongoose.Schema({
   date: String
 });
 
-const Blog = mongoose.model('Blog', blogSchema);

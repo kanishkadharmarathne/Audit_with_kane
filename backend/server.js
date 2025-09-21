@@ -1,21 +1,75 @@
-// const express = require('express');
-// const app = express();
-// app.use(express.json());
+const express = require('express');
+const app = express();
+app.use(express.json());
 
-// // Blog endpoints
-// app.post('/api/blogs', async (req, res) => {
-// 	try {
-// 		const blog = new Blog(req.body);
-// 		await blog.save();
-// 		res.status(201).json(blog);
-// 	} catch (err) {
-// 		res.status(400).json({ error: err.message });
-// 	}
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb+srv://kanishkadewinda1102_db_user:D3Rq2sbxoIzP0XQu@clusteraudit.4wtvyi9.mongodb.net/auditdb?retryWrites=true&w=majority&appName=ClusterAudit', {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+})
+.then(() => console.log('MongoDB connected'))
+.catch(err => console.log('MongoDB connection error:', err));
+
+// Blog model
+const blogSchema = new mongoose.Schema({
+	title: String,
+	content: String,
+	author: String,
+	date: String
+});
+const Blog = mongoose.model('Blog', blogSchema);
+
+// // Service model
+// const serviceSchema = new mongoose.Schema({
+// 	name: String,
+// 	description: String,
 // });
-// app.get('/api/blogs', async (req, res) => {
-// 	const blogs = await Blog.find();
-// 	res.json(blogs);
+// const Service = mongoose.model('Service', serviceSchema);
+
+// // Client model
+// const clientSchema = new mongoose.Schema({
+// 	name: String,
+// 	testimonial: String,
+// 	company: String,
 // });
+// const Client = mongoose.model('Client', clientSchema);
+
+// // Contact model
+// const contactSchema = new mongoose.Schema({
+// 	name: String,
+// 	email: String,
+// 	message: String,
+// 	date: { type: Date, default: Date.now }
+// });
+// const Contact = mongoose.model('Contact', contactSchema);
+
+// Create a new blog
+app.post('/api/blogs', async (req, res) => {
+  try {
+    const blog = new Blog(req.body);
+    await blog.save();
+    res.status(201).json(blog);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// Get all blogs
+app.get('/api/blogs', async (req, res) => {
+  const blogs = await Blog.find();
+  res.json(blogs);
+});
+
+// Optionally, get a single blog by ID
+app.get('/api/blogs/:id', async (req, res) => {
+  const blog = await Blog.findById(req.params.id);
+  if (blog) {
+    res.json(blog);
+  } else {
+    res.status(404).json({ error: 'Blog not found' });
+  }
+});
 
 // // Service endpoints
 // app.post('/api/services', async (req, res) => {
@@ -65,63 +119,3 @@
 // // Start server
 // const PORT = process.env.PORT || 5000;
 // app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-
-const mongoose = require('mongoose');
-
-mongoose.connect('mongodb+srv://kanishkadewinda1102_db_user:D3Rq2sbxoIzP0XQu@clusteraudit.4wtvyi9.mongodb.net/auditdb?retryWrites=true&w=majority&appName=ClusterAudit', {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-})
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.log('MongoDB connection error:', err));
-
-// Blog model
-const blogSchema = new mongoose.Schema({
-	title: String,
-	content: String,
-	author: String,
-	date: String
-});
-const Blog = mongoose.model('Blog', blogSchema);
-
-// // Service model
-// const serviceSchema = new mongoose.Schema({
-// 	name: String,
-// 	description: String,
-// });
-// const Service = mongoose.model('Service', serviceSchema);
-
-// // Client model
-// const clientSchema = new mongoose.Schema({
-// 	name: String,
-// 	testimonial: String,
-// 	company: String,
-// });
-// const Client = mongoose.model('Client', clientSchema);
-
-// // Contact model
-// const contactSchema = new mongoose.Schema({
-// 	name: String,
-// 	email: String,
-// 	message: String,
-// 	date: { type: Date, default: Date.now }
-// });
-// const Contact = mongoose.model('Contact', contactSchema);
-
-// Add a new blog
-app.post('/api/blogs', async (req, res) => {
-  try {
-    const blog = new Blog(req.body);
-    await blog.save();
-    res.status(201).json(blog);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
-
-// Get all blogs
-app.get('/api/blogs', async (req, res) => {
-  const blogs = await Blog.find();
-  res.json(blogs);
-});
